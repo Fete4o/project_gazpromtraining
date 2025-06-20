@@ -1,11 +1,16 @@
-﻿
-services:
+﻿services:
   - type: web
     name: gazpromtraining
     env: php
-    buildCommand: ""
-    startCommand: php -S 0.0.0.0:$PORT
+    plan: free
+    region: frankfurt
+    buildCommand: |
+      echo "Building PHP application..."
+    startCommand: php -S 0.0.0.0:$PORT -t .
     envVars:
       - key: PORT
         value: 10000
-
+      - key: APP_ENV
+        value: production
+    healthCheckPath: /index.php
+    autoDeploy: true
