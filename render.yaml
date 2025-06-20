@@ -1,11 +1,9 @@
 ﻿services:
   - type: web
     name: gazpromtraining
-    env: php
     plan: free
     region: frankfurt
-    buildCommand: ""  // Оставьте ПУСТЫМ для PHP!
-    startCommand: php -S 0.0.0.0:$PORT -t .
+    dockerfile: Dockerfile
     envVars:
       - key: PORT
-        value: 10000
+        value: 80

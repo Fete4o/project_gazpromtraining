@@ -1,9 +1,0 @@
-﻿{
-  "name": "project_gazpromtraining",
-  "version": "1.0.0",
-  "description": "Gazprom Training Platform",
-  "main": "index.php",
-  "scripts": {},
-  "dependencies": {},
-  "//": "THIS IS A PHP PROJECT (DO NOT USE NPM SCRIPTS)"
-}
