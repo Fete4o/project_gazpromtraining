@@ -5,5 +5,12 @@
     region: frankfurt
     dockerfile: Dockerfile
     envVars:
-      - key: PORT
-        value: 80
+      - key: DB_HOST
+        value: "localhost"  # Для локальной БД: localhost
+      - key: DB_USER
+        value: "root"        # Для XAMPP: root
+      - key: DB_PASSWORD
+        value: ""    # Для XAMPP: пустая строка
+      - key: DB_NAME
+        value: "gazprom_db"
+    healthCheckPath: /index.php

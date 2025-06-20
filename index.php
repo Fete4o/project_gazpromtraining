@@ -1,7 +1,67 @@
 <?php
-session_start();
-$isLoggedIn = isset($_SESSION['user_id']);
-$username = $_SESSION['username'] ?? '';
+// Включение вывода ошибок (для разработки)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Проверка работы сессий
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Проверка окружения
+function checkEnvironment() {
+    // Проверка PHP расширений
+    $required_extensions = ['pdo_mysql', 'session'];
+    foreach ($required_extensions as $ext) {
+        if (!extension_loaded($ext)) {
+            die("Требуется расширение PHP: $ext");
+        }
+    }
+    
+    // Проверка доступности сессий
+    if (!is_writable(session_save_path())) {
+        die("Сессии не доступны: нет прав на запись в " . session_save_path());
+    }
+}
+checkEnvironment();
+
+// Подключение к БД (пример для MySQL)
+function connectDB() {
+    $host = getenv('DB_HOST') ?: 'localhost';
+    $dbname = getenv('DB_NAME') ?: 'gazprom_training';
+    $user = getenv('DB_USER') ?: 'root';
+    $pass = getenv('DB_PASSWORD') ?: '';
+    
+    try {
+        $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+        $pdo = new PDO($dsn, $user, $pass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]);
+        return $pdo;
+    } catch (PDOException $e) {
+        error_log("Ошибка подключения к БД: " . $e->getMessage());
+        return null;
+    }
+}
+
+// Проверка авторизации
+$isLoggedIn = false;
+$username = '';
+$db = connectDB();
+
+if ($db && isset($_SESSION['user_id'])) {
+    $stmt = $db->prepare("SELECT username FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+    
+    if ($user) {
+        $isLoggedIn = true;
+        $username = $user['username'];
+    } else {
+        session_destroy(); // Удаляем невалидную сессию
+    }
+}
 ?>
 
 <!DOCTYPE html>
