@@ -1,9 +1,11 @@
-﻿services:
+﻿
+services:
   - type: web
     name: gazpromtraining
     env: php
     buildCommand: ""
-    startCommand: php -S 0.0.0.0:$PORT -t public
+    startCommand: php -S 0.0.0.0:$PORT
     envVars:
       - key: PORT
         value: 10000
+
