@@ -4,13 +4,8 @@
     env: php
     plan: free
     region: frankfurt
-    buildCommand: |
-      echo "Building PHP application..."
+    buildCommand: ""  // Оставьте ПУСТЫМ для PHP!
     startCommand: php -S 0.0.0.0:$PORT -t .
     envVars:
       - key: PORT
         value: 10000
-      - key: APP_ENV
-        value: production
-    healthCheckPath: /index.php
-    autoDeploy: true
