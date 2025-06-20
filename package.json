@@ -1,0 +1,11 @@
+﻿{
+  "name": "project_gazpromtraining",
+  "version": "1.0.0",
+  "description": "Gazprom Training Platform",
+  "main": "index.php",
+  "scripts": {
+    "start": "php -S 0.0.0.0: -t public",
+    "render-start": "php -S 0.0.0.0: -t public"
+  },
+  "dependencies": {}
+}
